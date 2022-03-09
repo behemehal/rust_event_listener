@@ -1,0 +1,13 @@
+[package]
+name = "rust_event_listener"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+# Add example_messenger bin
+[[bin]]
+name = "example_messenger"
+test = false
