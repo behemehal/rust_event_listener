@@ -1,11 +1,8 @@
-use core::fmt::Debug;
-use std::sync::Arc;
 use listener::{Listener, ListenerTypes, ListenerCallback};
 pub mod listener;
 
 trait ListenerType {}
 
-#[derive(Debug)]
 pub struct Event {
     pub name: String,
     pub data: Vec<Listener>,
@@ -24,21 +21,16 @@ impl EventListener {
     /// let mut emitter = EventListener::new();
     /// ```
     pub fn new() -> Self {
-        let newListener = Event {
-            name: "newListener".to_string(),
-            data: vec![],
-        };
-
-
-        let removeListener = Event {
-            name: "removeListener".to_string(),
-            data: vec![],
-        };
-        
         EventListener {
             listeners: vec![
-                newListener,
-                removeListener,
+                Event {
+                    name: "newListener".to_string(),
+                    data: vec![],
+                },
+                Event {
+                    name: "removeListener".to_string(),
+                    data: vec![],
+                },
             ],
             max_listeners: 10,
         }
@@ -70,7 +62,7 @@ impl EventListener {
     ///    println!("{}", data);
     /// });
     /// ```
-    pub fn on<T: Debug + 'static>(
+    pub fn on(
         &mut self,
         name: &str,
         callback: ListenerCallback,
@@ -119,7 +111,7 @@ impl EventListener {
     ///    println!("test");
     /// });
     /// ```
-    pub fn once<T: Debug + 'static>(&mut self, name: &str, callback: ListenerCallback) {
+    pub fn once(&mut self, name: &str, callback: ListenerCallback) {
         if self.listeners.iter().find(|x| x.name == name).is_none() {
             self.listeners.push(Event {
                 name: name.to_string(),
@@ -150,25 +142,21 @@ impl EventListener {
         }
     }
 
-    /*
     /// Get existing events
     /// ## Returns
     /// [`Vec<&Event>`]
     pub fn get_events(&self) -> Vec<&Event> {
         self.listeners.iter().map(|x| x).collect::<Vec<_>>()
     }
-    */
 
-    /*
     /// Get existing event names
     /// ## Returns
     /// [`Vec<String>`]
     pub fn get_event_names(&self) -> Vec<String> {
         self.listeners.iter().map(|x| x.name.clone()).collect()
     }
-    */
+    
 
-    /*
     /// Get all existent listeners of event
     /// ## Parameters
     /// * `name` - The name of the event
@@ -195,7 +183,6 @@ impl EventListener {
             .map(|x| x)
             .collect::<Vec<_>>()
     }
-    */
 
     /// Remove all listeners of event
     /// ## Parameters
@@ -239,15 +226,14 @@ impl EventListener {
     /// ```
     /// ## Panics
     /// If the event doesn't exist
-    pub fn emit<T: Debug + 'static>(&mut self, name: &str, data: T) {
+    pub fn emit(&mut self, name: &str, data: String) {
         if self.listeners.iter().find(|x| x.name == name).is_none() {
             panic!("Event doesn't exist");
         }
-        let data_clone = Arc::new(data);
         for i in &self.listeners {
             if i.name == name {
                 for j in &i.data {
-                    (j.callback)(name.to_string(), Box::new(data_clone.clone()));
+                    (j.callback)(name.to_string(), data.clone());
                 }
             }
         }

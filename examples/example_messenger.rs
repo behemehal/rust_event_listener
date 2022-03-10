@@ -9,9 +9,9 @@ fn main() {
     emitter.set_max_listeners(10);
 
     //Add listener
-    emitter.on::<i8>("test",  Box::new(|name, d| {
+    emitter.on("test",  Box::new(|name, d| {
         println!("Emited: {} {:#?}", name, d);
     }));
 
-    emitter.emit("test", 1);
+    emitter.emit("test", "1".to_string());
 }

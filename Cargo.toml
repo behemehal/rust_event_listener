@@ -1,13 +1,19 @@
 [package]
 name = "rust_event_listener"
 version = "0.1.0"
+authors = ["Behemehal", "Ahmetcan Aksu"]
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+description = "NodeJS like Event Listener library for rust!"
+categories = ["accessibility"]
+keywords = ["event_listener"]
+license = "GPL-2.0"
+readme = "README.md"
+documentation = "https://docs.rs/rust_event_listener"
+repository = "https://github.com/behemehal/rust_event_listener"
 
 [dependencies]
 
 # Add example_messenger bin
 [[bin]]
 name = "example_messenger"
-test = false
+path = "examples/example_messenger.rs"
