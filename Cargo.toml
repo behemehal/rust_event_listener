@@ -13,7 +13,6 @@ repository = "https://github.com/behemehal/rust_event_listener"
 
 [dependencies]
 
-# Add example_messenger bin
 [[bin]]
 name = "example_messenger"
 path = "examples/example_messenger.rs"
